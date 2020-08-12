@@ -18,7 +18,7 @@ PSG_CHANNEL		= $1F9FC
 PSG_VOLUME		= PSG_CHANNEL + 2
 
 .macro VERA_SET addr, increment
-  lda #((^addr) | (increment << 4))
+	lda #((^addr) | (increment << 4))
 	sta VERA_HIGH
 	lda #(>addr)
 	sta VERA_MID
@@ -27,7 +27,7 @@ PSG_VOLUME		= PSG_CHANNEL + 2
 .endmacro
 
 .org $0400
-;.org $9000							    ; Alternative memory location
+;.org $9000					; Alternative memory location
 .segment "CODE"
 
 
@@ -60,7 +60,7 @@ explode:
 
 common:
 ;*******************************************************************************
-	ldy #0								  ; move 10 bytes from definitions
+	ldy #0							; move 10 bytes from definitions
 :	lda sounds,x
 	sta channel15,y
 	inx
@@ -68,22 +68,22 @@ common:
 	cpy #10
 	bne :-
 
-	lda #255							  ; Start playing
+	lda #255						; Start playing
 	sta phase
 
-	lda running							; is IRQ player already running
+	lda running						; is IRQ player already running
 	bne return
 
-	sei 								    ; insert new IRQ player
+	sei 							; insert new IRQ player
 	lda IRQ_VECTOR
 	sta OLD_IRQ_HANDLER
-  lda #<Play
-  sta IRQ_VECTOR
-  lda IRQ_VECTOR+1
-  sta OLD_IRQ_HANDLER+1
-  lda #>Play
-  sta IRQ_VECTOR+1
-  cli
+  	lda #<Play
+  	sta IRQ_VECTOR
+  	lda IRQ_VECTOR+1
+  	sta OLD_IRQ_HANDLER+1
+  	lda #>Play
+  	sta IRQ_VECTOR+1
+  	cli
 	lda #1
 	sta running
 
@@ -99,45 +99,45 @@ return:
 Play:
 
 	lda phase
-	cmp #0								    ; if phase = 0 - Exit
+	cmp #0							; if phase = 0 - Exit
 	bne :+
 	jmp exit
 
-:	cmp #1								    ; if phase = 1 - Release
+:	cmp #1							; if phase = 1 - Release
 	bne :+
 	jmp release
 
-:	lda #1								    ; else phase = 255 - Start
+:	lda #1							; else phase = 255 - Start
 	sta phase
 
 	VERA_SET PSG_CHANNEL,1
 
-	lda frequency						  ; read and set frequency
+	lda frequency					; read and set frequency
 	sta VERA_DATA0
 	lda frequency+1
 	sta VERA_DATA0
 	lda volume+1
 	ora #%11000000
-	sta VERA_DATA0						; starting Volume  = volume
+	sta VERA_DATA0					; starting Volume  = volume
 	lda waveform
-	sta VERA_DATA0						; set waveform
+	sta VERA_DATA0					; set waveform
 	jmp exit
 
 ;*******************************************************************************
 release:
 ;*******************************************************************************
 	lda release_count
-	bne release_loop					; not finished yet
+	bne release_loop				; not finished yet
 
 	VERA_SET PSG_VOLUME,0
-	stz VERA_DATA0						; set volume to 0 at the end of Release phase
+	stz VERA_DATA0					; set volume to 0 at the end of Release phase
 
-	stz phase							    ; release finished, exit
-  jmp exit
+	stz phase						; release finished, exit
+	jmp exit
 
 release_loop:
 
-  sec									      ; decrease 16 bit volume
+	sec								; decrease 16 bit volume
 	lda volume
 	sbc vol_change
 	sta volume
@@ -145,7 +145,7 @@ release_loop:
 	sbc vol_change+1
 	sta volume+1
 
-	sec									      ; decrease 16 bit frequency
+	sec								; decrease 16 bit frequency
 	lda frequency
 	sbc freq_change
 	sta frequency
@@ -155,14 +155,14 @@ release_loop:
 
 	VERA_SET PSG_CHANNEL,1
 
-	lda frequency						  ; read and set frequency
+	lda frequency					; read and set frequency
 	sta VERA_DATA0
 	lda frequency+1
 	sta VERA_DATA0
 
-  lda volume+1
-  ora #%11000000
-  sta VERA_DATA0						; read and set volume
+	lda volume+1
+	ora #%11000000
+	sta VERA_DATA0					; read and set volume
 
 	dec release_count
 
@@ -174,21 +174,21 @@ exit:
 ; ******************************************************************************
 ; VARIABLES
 ; ******************************************************************************
-running:			    .byte 0				; 0 - not running, 1 - running
-phase:				    .byte 0				; 0 - not playing, 255 - Start, 1 - Play Release
+running:			.byte 0			; 0 - not running, 1 - running
+phase:				.byte 0			; 0 - not playing, 255 - Start, 1 - Play Release
 
 channel15:
-release_count:    .byte 0
+release_count:		.byte 0
 
-frequency:        .word 0
-waveform:			    .byte 0
+frequency:			.word 0
+waveform:			.byte 0
 
-volume:				    .word 0
-vol_change:			  .word 0
-freq_change:		  .word 0
+volume:				.word 0
+vol_change:			.word 0
+freq_change:		.word 0
 
 sounds:
 ping_envelope:		.byte 100,199,9,160,0,63,161,0,0,0
 shoot_envelope:		.byte 20,107,17,224,0,63,0,3,0,0
-zap_envelope:		  .byte 37,232,10,96,0,63,179,1,100,0
+zap_envelope:		.byte 37,232,10,96,0,63,179,1,100,0
 explode_envelope:	.byte 200,125,5,224,0,63,80,0,0,0
