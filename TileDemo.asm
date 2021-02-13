@@ -24,12 +24,12 @@ VERA_CTRL	    = $9F25
 ;*******************************************************************************
 ; Section 1 - Change @ character of defualt font into smiley face
 ;*******************************************************************************
-	stz VERA_CTRL                       ; Use Data Register 0
+    stz VERA_CTRL                       ; Use Data Register 0
     lda #$10
-	sta VERA_HIGH                       ; Set Increment to 1
-	lda #$F8
-	sta VERA_MID                        ; Set High Byte to $F8
-	stz VERA_LOW                        ; Set Low Byte to $00
+    sta VERA_HIGH                       ; Set Increment to 1
+    lda #$F8
+    sta VERA_MID                        ; Set High Byte to $F8
+    stz VERA_LOW                        ; Set Low Byte to $00
 
     ldx #0                              
 :   lda Smiley,x                        ; read from Smiley Data
@@ -41,12 +41,12 @@ VERA_CTRL	    = $9F25
 ;*******************************************************************************
 ; Section 2 - Build a 16x16 256 color tile in VRAM location $12000
 ;*******************************************************************************
-	stz VERA_CTRL                       ; Use Data Register 0
+    stz VERA_CTRL                       ; Use Data Register 0
     lda #$11
-	sta VERA_HIGH                       ; Set Increment to 1, High Byte to 1
-	lda #$20
-	sta VERA_MID                        ; Set Middle Byte to $20
-	stz VERA_LOW                        ; Set Low Byte to $00
+    sta VERA_HIGH                       ; Set Increment to 1, High Byte to 1
+    lda #$20
+    sta VERA_MID                        ; Set Middle Byte to $20
+    stz VERA_LOW                        ; Set Low Byte to $00
 
     ldx #0                              
 :   lda Brick,x                         ; read from Brick Data
@@ -68,12 +68,12 @@ VERA_CTRL	    = $9F25
 ;*******************************************************************************
 ; Section 4 - Fill the Layer 0 with all bricks
 ;*******************************************************************************
-	stz VERA_CTRL                       ; Use Data Register 0
+    stz VERA_CTRL                       ; Use Data Register 0
     lda #$10
-	sta VERA_HIGH                       ; Set Increment to 1, High Byte to 0
-	lda #$40
-	sta VERA_MID                        ; Set Middle Byte to $40
-	stz VERA_LOW                        ; Set Low Byte to $00
+    sta VERA_HIGH                       ; Set Increment to 1, High Byte to 0
+    lda #$40
+    sta VERA_MID                        ; Set Middle Byte to $40
+    stz VERA_LOW                        ; Set Low Byte to $00
 
     ldy #32
     lda #0                              
@@ -105,11 +105,11 @@ VERA_CTRL	    = $9F25
 ;*******************************************************************************
 ; Section 7 - Clear Layer 1
 ;*******************************************************************************
-	stz VERA_CTRL                       ; Use Data Register 0
+    stz VERA_CTRL                       ; Use Data Register 0
     lda #$10
-	sta VERA_HIGH                       ; Set Increment to 1, High Byte to 0
-	stz VERA_MID                        ; Set Middle Byte to $00
-	stz VERA_LOW                        ; Set Low Byte to $00
+    sta VERA_HIGH                       ; Set Increment to 1, High Byte to 0
+    stz VERA_MID                        ; Set Middle Byte to $00
+    stz VERA_LOW                        ; Set Low Byte to $00
 
     lda #30
     sta $02                             ; save counter for rows
@@ -126,13 +126,13 @@ VERA_CTRL	    = $9F25
 ;*******************************************************************************
 ; Section 8 - Write to Layer 1 in 256 colors
 ;*******************************************************************************
-	stz VERA_CTRL                       ; Use Data Register 0
+    stz VERA_CTRL                       ; Use Data Register 0
     lda #$10
-	sta VERA_HIGH                       ; Set Increment to 1, High Byte to 0
+    sta VERA_HIGH                       ; Set Increment to 1, High Byte to 0
     lda #13
-	sta VERA_MID                        ; Set Middle Byte to 15th row
+    sta VERA_MID                        ; Set Middle Byte to 15th row
     lda #24
-	sta VERA_LOW                        ; Set Low Byte to 12th column
+    sta VERA_LOW                        ; Set Low Byte to 12th column
     ldx #180
     ldy #0
     lda #0
@@ -145,9 +145,9 @@ VERA_CTRL	    = $9F25
 
 
     lda #15
-	sta VERA_MID                        ; Set Middle Byte to 15th row
+    sta VERA_MID                        ; Set Middle Byte to 15th row
     lda #24
-	sta VERA_LOW                        ; Set Low Byte to 12th column
+    sta VERA_LOW                        ; Set Low Byte to 12th column
     ldx #16
     ldy #0
 :   lda text,y
@@ -159,9 +159,9 @@ VERA_CTRL	    = $9F25
     bne :-
 
     lda #17
-	sta VERA_MID                        ; Set Middle Byte to 15th row
+    sta VERA_MID                        ; Set Middle Byte to 15th row
     lda #24
-	sta VERA_LOW                        ; Set Low Byte to 12th column
+    sta VERA_LOW                        ; Set Low Byte to 12th column
     ldx #100
     ldy #0
     lda #0
