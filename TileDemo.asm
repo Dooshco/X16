@@ -1,8 +1,8 @@
 ; Assembly Tile Demo
 ; System: Commander X16
-; Version: Emulator R.38+
+; Version: Emulator R.43
 ; Author: Dusan Strakl
-; Date: January 2021
+; Date: January 2021, May 2023
 ; Compiler: CC65
 ; Build using:	cl65 -t cx16 TileDemo.asm -o TILEDEMO.PRG
 
@@ -20,14 +20,13 @@ VERA_DATA0	    = $9F23
 VERA_CTRL	    = $9F25
 
 
-;main:
 ;*******************************************************************************
 ; Section 1 - Change @ character of defualt font into smiley face
 ;*******************************************************************************
     stz VERA_CTRL                       ; Use Data Register 0
-    lda #$10
+    lda #$11
     sta VERA_HIGH                       ; Set Increment to 1
-    lda #$F8
+    lda #$F0
     sta VERA_MID                        ; Set High Byte to $F8
     stz VERA_LOW                        ; Set Low Byte to $00
 
@@ -89,9 +88,9 @@ VERA_CTRL	    = $9F25
 ;*******************************************************************************
 ; Section 5 - Turn on Layer 0
 ;*******************************************************************************
-    lda $9F29
-    ora #%00110000                      ; Bits 4 and 5 are set to 1
-    sta $9F29                           ; So both Later 0 and 1 are turned on
+    ;lda $9F29
+    lda #%00110001                      ; Bits 4 and 5 are set to 1
+    sta $9F29                           ; So both Later 0 and 1 are turned on, VGA mode
 
 
 ;*******************************************************************************
@@ -106,9 +105,10 @@ VERA_CTRL	    = $9F25
 ; Section 7 - Clear Layer 1
 ;*******************************************************************************
     stz VERA_CTRL                       ; Use Data Register 0
-    lda #$10
+    lda #$11
     sta VERA_HIGH                       ; Set Increment to 1, High Byte to 0
-    stz VERA_MID                        ; Set Middle Byte to $00
+    lda #$B0
+    sta VERA_MID                        ; Set Middle Byte to $B0
     stz VERA_LOW                        ; Set Low Byte to $00
 
     lda #30
@@ -127,9 +127,9 @@ VERA_CTRL	    = $9F25
 ; Section 8 - Write to Layer 1 in 256 colors
 ;*******************************************************************************
     stz VERA_CTRL                       ; Use Data Register 0
-    lda #$10
+    lda #$11
     sta VERA_HIGH                       ; Set Increment to 1, High Byte to 0
-    lda #13
+    lda #$BD
     sta VERA_MID                        ; Set Middle Byte to 15th row
     lda #24
     sta VERA_LOW                        ; Set Low Byte to 12th column
@@ -144,7 +144,7 @@ VERA_CTRL	    = $9F25
     bne :-
 
 
-    lda #15
+    lda #$BE
     sta VERA_MID                        ; Set Middle Byte to 15th row
     lda #24
     sta VERA_LOW                        ; Set Low Byte to 12th column
@@ -158,7 +158,7 @@ VERA_CTRL	    = $9F25
     cpy #16
     bne :-
 
-    lda #17
+    lda #$C1
     sta VERA_MID                        ; Set Middle Byte to 15th row
     lda #24
     sta VERA_LOW                        ; Set Low Byte to 12th column
