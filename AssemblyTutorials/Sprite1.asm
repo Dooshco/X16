@@ -1,8 +1,8 @@
 ; Assembly Demo of Sprite Setup
 ; System: Commander X16
-; Version: Emulator R.38+
+; Version: Emulator R38 - R43
 ; Author: Dusan Strakl
-; Date: December 2020
+; Date: December 2020, May 2023
 ; Compiler: CC65
 ; Build using:	cl65 -t cx16 Sprite1.asm -o SPRITE1.PRG
 
@@ -24,9 +24,7 @@ VERA_CTRL	= $9F25
 ; MAIN PROGRAM
 ;******************************************************************************
 main:
-
-; Define Sprite
-    stz VERA_CTRL
+    stz VERA_CTRL                       ; Define Sprite
     lda #$10
     sta VERA_HIGH
     lda #$40
@@ -39,8 +37,7 @@ main:
     iny 
     bne :-
 
-; Initiate Sprite
-    lda $9F29
+    lda $9F29                           ; Initiate Sprite
     ora #%01000000
     sta $9F29
 
@@ -53,10 +50,8 @@ main:
     stz VERA_DATA0
     lda #$82
     sta VERA_DATA0
-    lda #$F9
-    sta VERA_DATA0
-    lda #$03
-    sta VERA_DATA0
+    stz VERA_DATA0
+    stz VERA_DATA0
     stz VERA_DATA0
     stz VERA_DATA0
     lda #%00001100
