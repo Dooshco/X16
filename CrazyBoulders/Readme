@@ -9,5 +9,5 @@ TITLESCREEN.BIN - Title screen 320x240 pixel art in 256 colors
 LIGHTFONT.BIN - Light font used in the game for HUD and messages
 TILESHEET.BIN - Tile set graphics
 SPRITE.BIN - Sprite definitions for our main character
-EFFECTS.BIN - Simplest Sounde Effect Library
+EFFECTS.PRG - Simplest Sounde Effect Library
 Full Tutorial can be found on my blog at: https://www.8bitcoding.com/p/crazy-boulders_16.html
